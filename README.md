@@ -6,11 +6,11 @@ A primary goal of the Rails team was to make it efficient to build core applicat
 
 As nice as it is to use the generators to save time, they also provide some additional extra benefits:
 
-* They can set up some basic specs for an application's test suite. They won't write our complex logic tests for us, but they will provide some basic examples.
+* They can setup some basic specs for an application's test suite. They won't write our complex logic tests for us, but they will provide some basic examples.
 
-* They are set up to work the same way each time. This helps standardize your code and enables your development to be more efficient since you don't have to worry as much about bugs related to spelling, syntax errors, or anything else that can occur when writing code manually.
+* They are setup to work the same way each time. This helps standardize your code and enables your development to be more efficient since you don't have to worry as much about bugs related to spelling, syntax errors, or anything else that can occur when writing code manually.
 
-* They follow Rails best practices, which includes utilizing RESTful naming patterns, removing duplicate code, using partials and a number of other best of breed design patterns. (If you don't know what all of these are, don't worry -- we will cover them shortly.)
+* They follow Rails best practices, which includes utilizing RESTful naming patterns, removing duplicate code, using partials and a number of other best of breed design patterns (if you don't know what all of these are, don't worry, we will cover them shortly).
 
 
 ## Abusing Generators
@@ -35,7 +35,7 @@ All of the Rails generators are entered as commands into the terminal and will f
 rails generate <name of generator> <options> --no-test-framework
 ```
 
-`--no-test-framework` is a flag that tells the generator not to create any tests for the newly-generated models, controllers, etc. When you're working on your own Rails applications, you don't need the flag — it's quite helpful for quickly stubbing out a test suite. However, it's necessary for labs because we don't want Rails adding additional tests on top of the test suite that already comes with the lesson.
+`--no-test-framework` is a flag that tells the generator not to create any tests for the newly-generated models, controllers, etc. When you're working on your own Rails applications, you don't need the flag — it's quite helpful for quickly stubbing out a test suite. However, it's necessary for Learn.co labs because we don't want Rails adding additional tests on top of the test suite that already comes with the lesson.
 
 For efficiency's sake, Rails aliased the `generate` method to `g`, so the CLI command above could be shortened to:
 
@@ -75,7 +75,7 @@ class AddPublishedStatusToPosts < ActiveRecord::Migration
 end
 ```
 
-Notice what the generator did? It automatically knew that we wanted to add a new column and built out the `add_column` method call. How did this happen? It turns out that the way that you name the migration file is very important. By prepending the `add_` text to the name it gave a signal to the migration generator that the purpose of this schema change will be to add a column(s) to the table. How did it know the table we wanted to add to? By appending the `_posts` text to the end of the migration name it tells Rails that the table we want to change is the `posts` table. Lastly, by adding the `published_status:string` text at the end of the command tells the generator that the new column name will be `published_status` and the data will be of type `string`.
+Notice what the generator did? It automatically knew that we wanted to add a new column and built out the `add_column` method call. How did this happen? It turns out that the way that you name the migration file is very important. By prepending the `add_` text to the name it gave a signal to the migration generator that the purpose of this schema change will be to add a column(s) to the table. How did it know the table we wanted to add to? By appending the `_posts` text to the end of the migration name it tells Rails that the table we want to change is the `posts` table. Lastly, by adding the `published_status:string` text at the end of the command tells the generator that the new column name will be `published_status` and the data type will be of type `string`.
 
 To update the database schema you can run `rake db:migrate` and the schema will reflect the change.
 
@@ -123,7 +123,7 @@ We can simply add in the `change_column` method like this: `change_column :posts
 
 # Model Generators
 
-This is a generator type that gets used regularly. It does a great job of creating the core code needed to create a model and associated database table without adding a lot of bloat to the application. Let's add a new model to the app called `Author` with columns `name`, `bio`, and `genre`, we can use the model generator with the following CLI command:
+This is a generator type that gets used regularly. It does a great job of creating the core code needed to create a model and associated database table without adding a lot of bloat to the application. Let's add a new model to the app called `Author` with columns `name` and `genre`, we can use the model generator with the following CLI command:
 
 ```
 rails g model Author name:string genre:string bio:text --no-test-framework
@@ -142,7 +142,7 @@ At a high level, this has created:
 * A database migration that will add a table and add the columns `name`, `genre`, and `bio`.
 * A model file that will inherit from `ApplicationRecord` (as of Rails 5)
 
-**Note:** Up to Rails 4.2, all models inherited from `ActiveRecord::Base`. Since Rails 5, all models inherit from `ApplicationRecord`. If you've used an older version of Rails in the past, you may be wondering what happened to `ActiveRecord::Base`? Well, not a lot has changed, actually. This file is automatically added to models in Rails 5 applications:
+**Note:** Up to Rails 4.2, all models inherited from `ActiveRecord::Base`. Since Rails 5, all models inherit from `ApplicationRecord`. If you've have used an older version of Rails in the past, you may be wondering what happened to `ActiveRecord::Base`? Well, not a lot has changed, actually. This file is automatically added to models in Rails 5 applications:
 
 ```ruby
 # app/models/application_record.rb
@@ -151,9 +151,9 @@ class ApplicationRecord < ActiveRecord::Base
 end
 ```
 
-It allows more flexibility if you want to add some extra functionality to Active Record.
+It allow more flexibility if you want to add some extra functionality to Active Record.
 
-To continue with the code-along, let's run `rake db:migrate`, which will add the authors table to the database schema. We can test this out in the console:
+To continue with the code-along, after running `rake db:migrate` it will add the table to the database schema. Let's test this out in the console:
 
 ```
 Author.all
@@ -163,7 +163,7 @@ Author.create!(name: "Stephen King", genre: "Horror", bio: "Bio details go here"
 => #<Author id: 1, name: "Stephen King", genre: "Horror", bio: "Bio details go here", created_at: "2015-11-27 22:59:14", updated_at: "2015-11-27 22:59:14">
 ```
 
-So it looks like our model has been created properly. As you can see, this particular generator created a few different pieces of functionality with a single command, and it did it with minimal code bloat.
+So it looks like our model has been created properly. As you can see, this particular generator created a few different pieces of functionality with a single command, and it did it with creating minimal code bloat.
 
 
 ## Controller Generators
@@ -209,7 +209,7 @@ So what got added here? Below is a list that is a little more high level:
 
 * A Coffeescript file for specific JavaScripts for that controller
 
-* An `scss` file for the styles for the controller
+* A `scss` file for the styles for the controller
 
 As you can see, this one generator created a large number of files and code. This is a generator to be careful with – it can create a number of files that are never used and can cause wasted files in an application.
 
@@ -219,7 +219,7 @@ So why are controller generators not the best for creating CRUD based features? 
 rails g controller accounts new create edit update destroy index show --no-test-framework
 ```
 
-Immediately you may notice that this would create wasted code since it would create view templates for `create`, `update`, and `destroy` actions, so they would need to be removed immediately. They would also be set up with `get` HTTP requests, which would not work at all. In the next section we're going to cover a better option for creating CRUD functionality.
+Immediately you may notice that this would create wasted code since it would create view templates for `create`, `update`, and `destroy` actions, so they would need to be removed immediately. They would also be setup with `get` HTTP requests, which would not work at all. In the next section we're going to cover a better option for creating CRUD functionality.
 
 
 ## Resource Generators
@@ -255,7 +255,7 @@ So what does our app have now due to the generator? Below is a summary:
 
 * A migration file that will create a new database table for the attributes passed to it in the generator
 
-* A model file that inherits from `ApplicationRecord` (as of Rails 5; see Note above)
+* A model file that inherits from `ActiveRecord::Base`
 
 * A controller file that inherits from `ApplicationController`
 
@@ -301,3 +301,5 @@ account       GET    /accounts/:id(.:format)      accounts#show
 ## Resources
 
 [Rails Generators](http://api.rubyonrails.org/classes/Rails/Generators.html)
+
+<p class='util--hide'>View <a href='https://learn.co/lessons/rails-generators-readme'>Rails Generators</a> on Learn.co and start learning to code for free.</p>
